@@ -17,12 +17,15 @@
     shell: /bin/bash
     groups: docker
     state: present
-  notify: restart docker and jenkins after group addition
 
-- name: restart docker and jenkins after group addition 
+- name: restart docker after group addition            
   systemd:
     state: restarted
     enabled: yes
-    names:
-      - docker
-      - jenkins
+    name: docker
+    
+- name: restart jenkins after group addition
+  systemd:
+    state: restarted
+    enabled: yes
+    name: jenkins
