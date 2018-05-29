@@ -1,0 +1,28 @@
+---
+- name: Ensure that epel-release is installed
+  become: true
+  yum:
+    name: "epel-release"
+    state: present
+
+- name: Ensure that support packages are installed
+  become: true
+  yum:
+    name: "{{ packages }}"
+    state: present
+
+- name: add jenkins to docker group
+  user:
+    name: jenkins
+    shell: /bin/bash
+    groups: docker
+    state: present
+  notify: restart docker and jenkins after group addition
+
+- name: restart docker and jenkins after group addition 
+  systemd:
+    state: restarted
+    enabled: yes
+    names:
+      - docker
+      - jenkins
