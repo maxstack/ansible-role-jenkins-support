@@ -18,14 +18,11 @@
     groups: docker
     state: present
 
-- name: restart docker after group addition            
+- name: restart docker & jenkins after group addition            
   systemd:
     state: restarted
     enabled: yes
-    name: docker
-    
-- name: restart jenkins after group addition
-  systemd:
-    state: restarted
-    enabled: yes
-    name: jenkins
+    name: "{{ item }}"
+  with_items:
+    - 'docker'
+    - 'jenkins'
