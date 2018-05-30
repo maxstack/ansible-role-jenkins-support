@@ -3,3 +3,4 @@ packages:
   - python-pip
   - vim
   - git
+  - jq
