@@ -31,3 +31,26 @@
   with_items:
     - 'docker'
     - 'jenkins'
+
+- name: Create the temporary pipeline directory
+  file:
+   path: /tmp/pipelines
+   state: directory
+   mode: 0755
+   group: jenkins
+   owner: jenkins
+
+- name: Download packer-ansible-jenkins jenkins xml config
+  get_url:
+    url: https://raw.githubusercontent.com/maxstack/packer-ansible-jenkins/master/_jenkins/packer-ansible-jenkins-pipeline.xml
+    dest: /tmp/pipelines/packer-ansible-jenkins-pipeline.xml
+    mode: 0644
+
+- name: Download aws-pipelines-destroy-ami jenkins xml config
+  get_url:
+    url: https://raw.githubusercontent.com/maxstack/aws-pipelines/master/destroy-ami/aws-pipelines-destroy-ami.xml
+    dest: /tmp/pipelines/aws-pipelines-destroy-ami.xml
+    mode: 0644
+
+- name: Add jobs to jenkins
+  shell: 'for pipeline in /tmp/pipelines/*.xml; do job=$(basename $pipeline); cat $pipeline | java -jar /opt/jenkins-cli.jar -s http://admin:{{ jenkins_admin_password|quote }}@localhost:8080 create-job  ${job/.xml}; done'
