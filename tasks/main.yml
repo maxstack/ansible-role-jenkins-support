@@ -40,16 +40,10 @@
    group: jenkins
    owner: jenkins
 
-- name: Download packer-ansible-jenkins jenkins xml config
+- name: Download jenkins build jobs
   get_url:
-    url: https://raw.githubusercontent.com/maxstack/packer-ansible-jenkins/master/_jenkins/packer-ansible-jenkins-pipeline.xml
-    dest: /tmp/pipelines/packer-ansible-jenkins-pipeline.xml
-    mode: 0644
-
-- name: Download aws-pipelines-destroy-ami jenkins xml config
-  get_url:
-    url: https://raw.githubusercontent.com/maxstack/aws-pipelines/master/destroy-ami/aws-pipelines-destroy-ami.xml
-    dest: /tmp/pipelines/aws-pipelines-destroy-ami.xml
+    url: "{{ build_jobs }}"
+    dest: /tmp/pipelines/
     mode: 0644
 
 - name: Wait for Jenkins to start up again before proceeding.

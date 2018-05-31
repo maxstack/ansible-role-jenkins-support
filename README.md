@@ -14,6 +14,10 @@ Available variables are listed below, along with default values:
       - python-pip
       - vim
       - git
+    build_jobs:
+      - https://raw.githubusercontent.com/maxstack/packer-ansible-jenkins/master/_jenkins/packer-ansible-jenkins-pipeline.xml
+      - https://raw.githubusercontent.com/maxstack/aws-pipelines/master/destroy-ami/aws-pipelines-destroy-ami.xml
+
 
 ## Dependencies
 
@@ -21,10 +25,14 @@ None
 
 ## Example Playbook
 
-    - hosts: all
-      roles:
-        - role: maxstack.jenkins-support
-          packages:
-            - python-pip
-            - vim
-            - git
+- hosts: all
+  roles:
+    - role: maxstack.jenkins-support
+      packages:
+        - python-pip
+        - vim
+        - git
+      build_jobs:
+        - https://raw.githubusercontent.com/maxstack/packer-ansible-jenkins/master/_jenkins/packer-ansible-jenkins-pipeline.xml
+        - https://raw.githubusercontent.com/maxstack/aws-pipelines/master/destroy-ami/aws-pipelines-destroy-ami.xml
+
